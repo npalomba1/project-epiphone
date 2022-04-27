@@ -1,12 +1,16 @@
-<h2>Welcome back, {{name}}</h2>
+<h2>Welcome back, {{user.username}}</h2>
 
-<p>{{name}}</p>
+<p>{{user.username}}</p>
 
 <div>
     <a href="/users/diagram-finder">Search for chords and tabs</a>
-    <a href="createpost">Create Post</p>
+    <a href="/posts/create-post">Create Post</a>
 </div>
 
 <div>
     <!--this is where the list of posts will populate -->
 </div>
+<p>{{user._id}}</p>
+<footer>
+    <a href="/users/user-home/{{user._id}}/delete-user">Delete this account</a>
+</footer>

@@ -56,7 +56,7 @@ router.post("/signup", (req, res, next) => {
 
 //GET USERS PROFILE HOME PAGE
 router.get("/user-home", isLoggedIn, (req, res, next)=> {
-  res.render("users/user-home", {name: req.session.user.username}); 
+  res.render("users/user-home", {user: req.session.user}); 
 })
 
 // //POST USER PROFILE HOME PAGE
@@ -149,5 +149,16 @@ router.get("/logout", (req, res, next) => {
   req.session.destroy(); 
   res.render("index", {message: "You have successfully logged out"})
 })
+
+//POST DELETE USER ACCT 
+router.get("/user-home/:userId/delete-user", (req, res, next) => {
+  User.findByIdAndRemove(req.params.userId)
+  .then(()=> {
+    res.redirect('/')
+  })
+  .catch((err)=>{
+    console.log("failed", err.message)
+  });
+});
 
 module.exports = router;
