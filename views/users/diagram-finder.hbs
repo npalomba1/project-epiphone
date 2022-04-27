@@ -1,0 +1,45 @@
+<h2>Discover new chords and tabs</h2>
+{{!-- 
+<img src="{{chord}}">
+
+<embed type="image/jpg" src="pic_trulli.jpg" width="300" height="200"> --}}
+
+{{!-- <p>{{chord}}</p> --}}
+<p>{{chord}}</p>
+<h3>Find chords related to a root</h3>
+
+<form method="get" action="/users/diagram-finder">
+<input name="chord">
+
+<button type="submit">Find chord</button>
+
+</form>
+
+<iframe scrolling="no" src="https://api.uberchord.com/v1/embed/chords?nameLike={{chord}}"></iframe>
+
+
+<p>{{chord}}</p>
+<h3>Search for an exact chord</h3>
+
+<form method="get" action="/users/diagram-finder">
+<input name="chord">
+
+<button type="submit">Find chord</button>
+
+</form>
+
+<iframe scrolling="no" src="https://api.uberchord.com/v1/embed/chords?nameLike={{chord}}"></iframe>
+
+
+
+
+
+
+
+
+{{!-- <iframe scrolling="no" src="https://api.uberchord.com/v1/embed/chords/F_maj7"> --}}
+
+{{!-- <div class="uberchord-chord" data-chord-name="F,maj7,"></div> --}}
+
+{{!-- <ins class="scales_chords_api" chord="F#m7"></ins> --}}
+

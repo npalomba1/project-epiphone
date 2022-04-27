@@ -4,6 +4,8 @@ var router = express.Router();
 const User = require("../models/User.model")
 const bcrypt = require("bcryptjs"); 
 const saltRounds = 10; 
+const isLoggedIn = require("../middleware/isLoggedIn")
+const axios = require('axios'); 
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -37,6 +39,7 @@ router.post("/signup", (req, res, next) => {
       User.create({
         username: req.body.username,
         password: hashedPass,
+        fullName: req.body.fullName,
       })
       .then((createdUser)=> {
         res.render('index')
@@ -51,6 +54,16 @@ router.post("/signup", (req, res, next) => {
   });
 })
 
+//GET USERS PROFILE HOME PAGE
+router.get("/user-home", isLoggedIn, (req, res, next)=> {
+  res.render("users/user-home", {name: req.session.user.username}); 
+})
+
+// //POST USER PROFILE HOME PAGE
+// router.post("/user-home", (req, res, next)=>{
+//   res.render("users/user-home");
+// })
+
 //GET LOGIN 
 router.get("/login", (req, res, next) => {
   res.render("users/login"); 
@@ -60,19 +73,19 @@ router.get("/login", (req, res, next) => {
 router.post("/login", (req, res, next)=> {
   //1.) check if fields are empty
   if (!req.body.username || !req.body.password) {
-    res.render("index", {message: "Username and password required to log in"})
+    res.render("users/user-home", {message: "Username and password required to log in"})
   }
   //2.) make sure the user exists
   User.findOne({username: req.body.username})
-  .then((foundUsername)=> {
-    if(foundUsername){
+  .then((foundUser)=> {
+    if(foundUser){
       //3.)check password
       //this will return true or false
       const doesMatch = bcrypt.compareSync(req.body.password, foundUser.password)
       if(doesMatch) {
         //4.) set up a session
-        req.session.username = foundUsername; 
-        res.render('users/user-home', {info: JSON.stringify(req.session) })
+        req.session.user = foundUser; 
+        res.render('users/user-home', { name: req.session.user.username })
 
       } else {
         res.render('login', {message: "Username or password is incorrect"})
@@ -84,13 +97,57 @@ router.post("/login", (req, res, next)=> {
   })
 })
 
-//GET USERS PROFILE HOME PAGE
+// GET DIAGRAM FINDER PAGE
+// router.get("/diagram-finder", isLoggedIn, (req, res, next) => {
+//   axios
+//     .get("https://api.uberchord.com/v1/embed/chords?nameLike=F#")
+//     // .get("https://www.scales-chords.com/api/scales-chords-api.js")
+//     .then((results)=>{
+//       res.render("users/diagram-finder")
+//       // res.render("users/diagram-finder" )  {chord: results.data}^^
+//     })
+//     .catch((err)=>{
+//       res.json(err.message);
+//     });
+// }); 
+router.get("/diagram-finder", isLoggedIn, (req, res, next) => {
+  console.log(req.query.chord)
+  axios
+    .get("https://api.uberchord.com/v1/embed/chords?nameLike=F")
+    // .get("https://www.scales-chords.com/api/scales-chords-api.js")
+    .then((results)=>{
+      res.render("users/diagram-finder", {chord: req.query.chord})
+      // res.render("users/diagram-finder" )  {chord: results.data}^^
+    })
+    .catch((err)=>{
+      res.json(err.message);
+    });
+}); 
 
-//GET DIAGRAM FINDER PAGE
-//FIGURE OUT HOW TO MAKE A BUTTON THAT TRIGGERS THE API SEARCH FOR THE CHORD 
-//POST 
+//POST DIAGRAM FINDER PAGE
+router.post("/diagram-finder/search")
+
+// //GET DIAGRAM FINDER PAGE backup just in case lol
+// router.get("/diagram-finder", isLoggedIn, (req, res, next) => {
+//   axios
+//   .get("https://www.scales-chords.com/api/scales-chords-api.js")
+//   .then((results)=>{
+//     // res.render("users/diagram-finder", {chord: JSON.stringify(results.data)})
+//     res.render("users/diagram-finder")
+//   })
+//   .catch((err)=>{
+//     res.json(err.message); 
+//   });
+// }); 
+
+//POST DIAGRAM FINDER PAGE 
+
+
 
 //GET LOGOUT PAGE
-
+router.get("/logout", (req, res, next) => {
+  req.session.destroy(); 
+  res.render("index", {message: "You have successfully logged out"})
+})
 
 module.exports = router;
