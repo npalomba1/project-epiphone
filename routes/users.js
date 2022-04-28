@@ -48,11 +48,13 @@ router.post("/signup", (req, res, next) => {
       })
       .catch((err)=>{
         console.log("Error creating user", err.message)
+        res.render("index", {message: "ERRORERRORERROR"})
       });
     }
   })
   .catch((err)=>{
     console.log("Failure checking for user", err.message)
+    res.render("index", {message: err.message})
   });
 })
 
@@ -64,6 +66,7 @@ router.get("/user-home", isLoggedIn, (req, res, next)=> {
   })
   .catch((err)=>{
     console.log("Failure to load page", err.message)
+    res.render("index", {message: err.message})
   });
 });
 
@@ -106,6 +109,7 @@ router.post("/login", (req, res, next)=> {
   })
   .catch((err)=> {
     console.log("failed", err.message)
+    res.render('login', {message: "Username or password is incorrect"})
   })
 })
 
@@ -145,6 +149,7 @@ router.get("/user-home", isLoggedIn, (req, res, next)=>{
   })
   .catch((err)=>{
     console.log("error making posts list", err)
+    res.render("index", {message: err.message})
   });
 })
 
@@ -182,6 +187,7 @@ router.get("/user-home/:userId/delete-user", (req, res, next) => {
   })
   .catch((err)=>{
     console.log("failed", err.message)
+    res.render("index", {message: err.message})
   });
 });
 
