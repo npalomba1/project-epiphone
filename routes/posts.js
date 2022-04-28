@@ -32,7 +32,7 @@ router.post("/create-post", isLoggedIn, (req, res, next) => {
     // imageUrl: req.body.imageUrl,
   })
   .then((newPost)=>{
-    res.render("users/user-home");
+    res.render("posts/users/user-home");
   })
   .catch((err)=>{
     console.log("error creating new post", err)
@@ -44,7 +44,7 @@ router.post("/create-post", isLoggedIn, (req, res, next) => {
 router.get("/users/user-home", isLoggedIn, (req, res, next)=>{
   Post.find()
   .then((allPosts)=>{
-    res.render("users/user-home", {allPosts: allPosts})
+    res.render("posts/users/user-home", {allPosts: allPosts})
   })
   .catch((err)=>{
     console.log("error making posts list", err)
