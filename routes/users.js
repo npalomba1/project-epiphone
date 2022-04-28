@@ -92,6 +92,7 @@ router.post("/login", (req, res, next)=> {
   //2.) make sure the user exists
   User.findOne({username: req.body.username})
   .then((foundUser)=> {
+    console.log("this is user", foundUser); 
     if(foundUser){
       //3.)check password
       //this will return true or false
@@ -103,13 +104,15 @@ router.post("/login", (req, res, next)=> {
         res.redirect('/users/user-home')
 
       } else {
-        res.render('login', {message: "Username or password is incorrect"})
+        res.render('users/login', {message: "Username or password is incorrect"})
       }
+    } else {
+      res.render('users/login', {message: "Username or password is incorrect"})
     }
   })
   .catch((err)=> {
     console.log("failed", err.message)
-    res.render('login', {message: "Username or password is incorrect"})
+    res.render('users/login', {message: "Username or password is incorrect"})
   })
 })
 
