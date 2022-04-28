@@ -12,6 +12,9 @@ var postsRouter = require('./routes/posts');
 var app = express();
 require("./config/session.config")(app);
 
+//importing .env
+require("dotenv/config");
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -44,7 +47,8 @@ app.use(function(err, req, res, next) {
 
 //connect to compass
 mongoose
-.connect("mongodb://localhost/epiphone")
+// .connect("mongodb://localhost/epiphone")
+.connect(process.env.MONGODB_URI)
 .then((x)=> 
   console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
 )

@@ -1,1 +1,14 @@
 <h2>Create new post</h2>
+
+<form method="post" action="/posts/create-post">
+    <label>Title</label>
+    <input name="title">
+    <label>Content</label>
+    <textarea rows="5" cols="60" name="content">
+    </textarea>
+    {{!-- <label>Title</label>
+    <input name="title"> --}}
+    {{!-- <label>Picture</label>
+    <input name="imageUrl" type="file"> --}}
+    <button type="submit">Create Post</button>
+</form>

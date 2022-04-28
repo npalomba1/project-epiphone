@@ -7,9 +7,13 @@
     <a href="/posts/create-post">Create Post</a>
 </div>
 
-<div>
-    <!--this is where the list of posts will populate -->
+{{#each allPosts}}
+<div class="post-list">
+    <p>{{this.title}}</p>
+    <hr>
 </div>
+{{/each}}
+
 <p>{{user._id}}</p>
 <footer>
     <a href="/users/user-home/{{user._id}}/delete-user">Delete this account</a>

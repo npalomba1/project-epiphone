@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-const User = require("../models/User.model")
+const User = require("../models/User.model"); 
+const Post = require("../models/Post.model"); 
 const bcrypt = require("bcryptjs"); 
 const saltRounds = 10; 
 const isLoggedIn = require("../middleware/isLoggedIn")
@@ -42,7 +43,8 @@ router.post("/signup", (req, res, next) => {
         fullName: req.body.fullName,
       })
       .then((createdUser)=> {
-        res.render('index')
+        // res.redirect('users/user-home')
+        res.redirect('/posts/users/user-home')
       })
       .catch((err)=>{
         console.log("Error creating user", err.message)
@@ -56,8 +58,11 @@ router.post("/signup", (req, res, next) => {
 
 //GET USERS PROFILE HOME PAGE
 router.get("/user-home", isLoggedIn, (req, res, next)=> {
-  res.render("users/user-home", {user: req.session.user}); 
+    res.render("users/user-home", {user: req.session.user});
 })
+
+//GET ALL POSTS LISTS TO SHOW UP ON USERS PROFILE HOME PAGE
+
 
 // //POST USER PROFILE HOME PAGE
 // router.post("/user-home", (req, res, next)=>{
@@ -85,7 +90,8 @@ router.post("/login", (req, res, next)=> {
       if(doesMatch) {
         //4.) set up a session
         req.session.user = foundUser; 
-        res.render('users/user-home', { name: req.session.user.username })
+        // res.render('users/user-home', { name: req.session.user.username })
+        res.redirect('/posts/users/user-home')
 
       } else {
         res.render('login', {message: "Username or password is incorrect"})
@@ -125,7 +131,7 @@ router.get("/diagram-finder", isLoggedIn, (req, res, next) => {
 }); 
 
 //POST DIAGRAM FINDER PAGE
-router.post("/diagram-finder/search")
+// router.post("/diagram-finder/search")
 
 // //GET DIAGRAM FINDER PAGE backup just in case lol
 // router.get("/diagram-finder", isLoggedIn, (req, res, next) => {
@@ -152,9 +158,9 @@ router.get("/logout", (req, res, next) => {
 
 //POST DELETE USER ACCT 
 router.get("/user-home/:userId/delete-user", (req, res, next) => {
-  User.findByIdAndRemove(req.params.userId)
+  User.findByIdAndDelete(req.params.userId)
   .then(()=> {
-    res.redirect('/')
+    res.render('index')
   })
   .catch((err)=>{
     console.log("failed", err.message)
