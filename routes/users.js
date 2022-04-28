@@ -58,7 +58,7 @@ router.post("/signup", (req, res, next) => {
 
 //GET USERS PROFILE HOME PAGE
 router.get("/user-home", isLoggedIn, (req, res, next)=> {
-    res.render("users/user-home", {user: req.session.user});
+    res.render("/posts/users/user-home", {user: req.session.user});
 })
 
 //GET ALL POSTS LISTS TO SHOW UP ON USERS PROFILE HOME PAGE
@@ -91,7 +91,7 @@ router.post("/login", (req, res, next)=> {
         //4.) set up a session
         req.session.user = foundUser; 
         // res.render('users/user-home', { name: req.session.user.username })
-        res.redirect('/posts/users/user-home')
+        res.redirect('posts/users/user-home')
 
       } else {
         res.render('login', {message: "Username or password is incorrect"})
