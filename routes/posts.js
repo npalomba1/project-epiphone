@@ -40,15 +40,61 @@ router.post("/create-post", isLoggedIn, (req, res, next) => {
   }
 });
 
-// GET POST DETAILS PAGE (find Posts!)
-// router.get("/users/user-home", isLoggedIn, (req, res, next)=>{
-//   Post.find()
-//   .then((allPosts)=>{
-//     res.render("/users/user-home", {allPosts: allPosts})
-//   })
-//   .catch((err)=>{
-//     console.log("error making posts list", err)
-//   });
+// GET FULL POST DETAILS PAGE 
+router.get("/:id/post-details", isLoggedIn, (req, res, next)=>{
+  Post.findById(req.params.id)
+  .then((foundPost)=>{
+    res.render("posts/post-details", {foundPost: foundPost})
+  })
+  .catch((err)=>{
+    console.log("error making posts list", err)
+    res.render("index", {message: err.message})
+  });
+})
+
+//GET FULL POST DETAILS PAGE
+router.get("/:id/update-post", isLoggedIn, (req, res, next)=>{
+  Post.findById(req.params.id)
+  .then((foundPost)=>{
+    res.render("posts/update-post", {foundPost: foundPost})
+  })
+  .catch((err)=>{
+    console.log("error making posts list", err)
+    res.render("index", {message: err.message})
+  })
+});
+
+//POST FULL POST DETAILS UPDATE PAGE
+router.post("/:id/update-post", isLoggedIn, (req, res, next)=>{
+  Post.findByIdAndUpdate(req.params.id, {
+    title: req.body.title,
+    content: req.body.content,
+    imageUrl: req.body.imageUrl,
+  })
+  .then((foundPost)=>{
+    res.redirect("/users/user-home")
+  })
+  .catch((err)=>{
+    console.log("error making posts list", err)
+    res.render("index", {message: err.message})
+  })
+});
+
+//GET DELETE FULL POST PAGE
+router.get("/:id/post-delete", (req, res, next)=> {
+  Post.findByIdAndDelete(req.params.id)
+  .then(()=>{
+    res.redirect("/users/user-home")
+  })
+  .catch((err)=>{
+    console.log("error making posts list", err)
+    res.render("index", {message: err.message})
+  })
+})
+
+//GET FULL POST DETAILS
+// router.get("/:id/post-details", isLoggedIn, (req, res, next)=> {
+//   res.render("posts/post-details");
 // })
 
 //GET POST DETAILS PAGE DELETE A TAG

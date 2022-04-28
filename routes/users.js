@@ -44,7 +44,7 @@ router.post("/signup", (req, res, next) => {
       })
       .then((createdUser)=> {
         // res.redirect('users/user-home')
-        res.render('users/user-home')
+        res.render('index', {message: "You have successfully signed up!"})
       })
       .catch((err)=>{
         console.log("Error creating user", err.message)

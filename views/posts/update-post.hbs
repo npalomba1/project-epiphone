@@ -1,0 +1,15 @@
+<h2>Edit post</h2>
+
+<form method="post" action="/posts/{{foundPost._id}}/update-post">
+    <label>Title</label>
+    <input name="title" value="{{foundPost.title}}">
+    <label>Content</label>
+    <textarea value="{{foundPost.content}}" rows="5" cols="60" name="content" >
+{{foundPost.content}}
+    </textarea>
+    {{!-- <label>Title</label>
+    <input name="title"> --}}
+    {{!-- <label>Picture</label>
+    <input name="imageUrl" type="file"> --}}
+    <button type="submit">Update post</button>
+</form>
