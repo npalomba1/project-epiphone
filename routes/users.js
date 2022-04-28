@@ -44,7 +44,7 @@ router.post("/signup", (req, res, next) => {
       })
       .then((createdUser)=> {
         // res.redirect('users/user-home')
-        res.render('posts/users/user-home')
+        res.render('users/user-home')
       })
       .catch((err)=>{
         console.log("Error creating user", err.message)
@@ -58,8 +58,14 @@ router.post("/signup", (req, res, next) => {
 
 //GET USERS PROFILE HOME PAGE
 router.get("/user-home", isLoggedIn, (req, res, next)=> {
-    res.render("users/user-home", {user: req.session.user});
-})
+  Post.find({owner: req.session.user._id}) 
+  .then((myPosts)=>{
+    res.render("users/user-home", {user: req.session.user, myPosts: myPosts});
+  })
+  .catch((err)=>{
+    console.log("Failure to load page", err.message)
+  });
+});
 
 //GET ALL POSTS LISTS TO SHOW UP ON USERS PROFILE HOME PAGE
 
@@ -78,7 +84,7 @@ router.get("/login", (req, res, next) => {
 router.post("/login", (req, res, next)=> {
   //1.) check if fields are empty
   if (!req.body.username || !req.body.password) {
-    res.render("users/user-home", {message: "Username and password required to log in"})
+    res.render("users/login", {message: "Username and password required to log in"})
   }
   //2.) make sure the user exists
   User.findOne({username: req.body.username})
@@ -91,7 +97,7 @@ router.post("/login", (req, res, next)=> {
         //4.) set up a session
         req.session.user = foundUser; 
         // res.render('users/user-home', { name: req.session.user.username })
-        res.render('users/user-home')
+        res.redirect('/users/user-home')
 
       } else {
         res.render('login', {message: "Username or password is incorrect"})
@@ -129,6 +135,18 @@ router.get("/diagram-finder", isLoggedIn, (req, res, next) => {
       res.json(err.message);
     });
 }); 
+
+//GET POSTS DETAILS ON USER-HOME (LIST OF POSTS)
+router.get("/user-home", isLoggedIn, (req, res, next)=>{
+  console.log(req.params)
+  Post.find()
+  .then((allPosts)=>{
+    res.render("users/user-home", {allPosts})
+  })
+  .catch((err)=>{
+    console.log("error making posts list", err)
+  });
+})
 
 //POST DIAGRAM FINDER PAGE
 // router.post("/diagram-finder/search")

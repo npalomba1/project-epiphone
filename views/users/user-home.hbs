@@ -7,14 +7,14 @@
     <a href="/posts/create-post">Create Post</a>
 </div>
 
-{{#each allPosts}}
+{{#each myPosts}}
 <div class="post-list">
-    <p>{{this.title}}</p>
+    <p>*{{this.title}}</p>
     <hr>
 </div>
 {{/each}}
 
-<p>{{user._id}}</p>
+{{!-- <p>{{user._id}}</p> --}}
 <footer>
     <a href="/users/user-home/{{user._id}}/delete-user">Delete this account</a>
 </footer>
