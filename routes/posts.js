@@ -28,8 +28,8 @@ router.post("/create-post", isLoggedIn, (req, res, next) => {
   Post.create({
     title: req.body.title,
     content: req.body.content,
-    owner: req.session.user._id,
-    // imageUrl: req.body.imageUrl,
+    creatorId: req.session.creatorId,
+    imageUrl: req.body.imageUrl,
   })
   .then((newPost)=>{
     res.redirect("/users/user-home");

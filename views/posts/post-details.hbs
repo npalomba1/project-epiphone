@@ -1,7 +1,13 @@
-<h2>Post<h2>
+<h2>Post</h2>
 
-<h3>{{foundPost.title}}</h3>
-<p>{{foundPost.content}}</p>
-{{!-- <img src="{{foundPost.imgUrl}}">  --}}
-<a href="/posts/{{foundPost._id}}/update-post">Update post</a>
-<a href="/posts/{{foundPost._id}}/post-delete">Delete post</a>
+<div>
+    <h3>{{foundPost.title}}</h3>
+    <p>{{foundPost.content}}</p>
+    <img src="{{foundPost.imageUrl}}" alt="imgUrl"/> 
+</div>
+
+
+<footer>
+    <a href="/posts/{{foundPost._id}}/update-post">Update post</a>
+    <a href="/posts/{{foundPost._id}}/post-delete">Delete post</a>
+</footer>  
