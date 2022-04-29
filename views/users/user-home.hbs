@@ -1,8 +1,8 @@
 <h2>Welcome back, {{user.fullName}}</h2>
 
-<p>{{user.username}}</p>
+{{!-- <p>{{user.username}}</p> --}}
 
-<div>
+<div class="user-home-body">
     <a href="/users/diagram-finder">Search for chords and tabs</a>
     <a href="/posts/create-post">Create Post</a>
 </div>
@@ -11,11 +11,16 @@
 <div class="post-list">
     <p>{{this.title}}</p>
     <a href="/posts/{{this._id}}/post-details">See post</a>
-    <hr>
+    {{!-- <hr> --}}
 </div>
 {{/each}}
 
+<br>
+<br>
+
 {{!-- <p>{{user._id}}</p> --}}
 <footer>
+    <div class="footer-body">
     <a href="/users/user-home/{{user._id}}/delete-user">Delete this account</a>
+    </div>
 </footer>

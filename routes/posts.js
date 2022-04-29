@@ -69,6 +69,7 @@ router.post("/:id/update-post", isLoggedIn, (req, res, next)=>{
   Post.findByIdAndUpdate(req.params.id, {
     title: req.body.title,
     content: req.body.content,
+    creatorId: req.session.creatorId,
     imageUrl: req.body.imageUrl,
   })
   .then((foundPost)=>{
